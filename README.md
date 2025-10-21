@@ -1,170 +1,170 @@
 # gpt-oss-20b-PHA Model
 
-Personal Health Agent Q&A System using RAG (Retrieval Augmented Generation)
+RAG (Retrieval Augmented Generation) 기반 Personal Health Agent Q&A 시스템
 
-## 🎯 Project Overview
+## 🎯 프로젝트 개요
 
-This project implements a RAG-based question-answering system for Personal Health Agent research papers using the gpt-oss-20b model via LM Studio.
+이 프로젝트는 LM Studio를 통해 gpt-oss-20b 모델을 사용하여 Personal Health Agent 연구 논문에 대한 질문-답변 시스템을 구현합니다.
 
-### Key Features
+### 주요 기능
 
-- ✅ LM Studio integration with OpenAI-compatible API
-- ✅ Multi-lingual embedding support (Korean + English)
-- ✅ ChromaDB vector store for efficient retrieval
-- ✅ OpenWebUI integration for chat interface
-- ✅ FastAPI REST API server
-- ✅ Interactive CLI interface
-- ✅ Source tracking and citation
+- ✅ LM Studio 통합 및 OpenAI 호환 API
+- ✅ 다국어 임베딩 지원 (한국어 + 영어)
+- ✅ ChromaDB 벡터 스토어를 통한 효율적인 검색
+- ✅ OpenWebUI 채팅 인터페이스 통합
+- ✅ FastAPI REST API 서버
+- ✅ 대화형 CLI 인터페이스
+- ✅ 출처 추적 및 인용
 
-## 🚀 Quick Start
+## 🚀 빠른 시작
 
-### Prerequisites
+### 사전 요구사항
 
-- Python 3.10+
-- [LM Studio](https://lmstudio.ai/) installed
-- gpt-oss-20b model downloaded in LM Studio
-- 16GB+ RAM (32GB+ recommended)
-- 20GB+ free disk space
+- Python 3.10 이상
+- [LM Studio](https://lmstudio.ai/) 설치
+- LM Studio에 gpt-oss-20b 모델 다운로드
+- 16GB 이상 RAM (32GB 이상 권장)
+- 20GB 이상 여유 디스크 공간
 
-### Installation
+### 설치
 
 ```bash
-# Clone the repository
+# 저장소 클론
 git clone https://github.com/gaebal-herolaw/gpt-oss-20b-pha-model.git
 cd gpt-oss-20b-pha-model
 
-# Create virtual environment
+# 가상환경 생성
 python -m venv .venv
 # Windows:
 .\.venv\Scripts\Activate.ps1
 # Linux/Mac:
 source .venv/bin/activate
 
-# Install PyTorch with CUDA support
+# PyTorch CUDA 지원 버전 설치
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# Install other dependencies
+# 나머지 의존성 설치
 pip install -r requirements.txt
 
-# Create .env file
+# .env 파일 생성
 cp .env.example .env
 ```
 
-### Setup LM Studio
+### LM Studio 설정
 
-1. **Install LM Studio** from [https://lmstudio.ai/](https://lmstudio.ai/)
-2. **Download gpt-oss-20b model** (default location: `~/.lmstudio/models/`)
-3. **Start LM Studio Server**:
-   - Load the gpt-oss-20b model
-   - Go to "Developer" or "Local Server" tab
-   - Click "Start Server" (default port: 1234)
+1. **LM Studio 설치**: [https://lmstudio.ai/](https://lmstudio.ai/)에서 다운로드
+2. **gpt-oss-20b 모델 다운로드** (기본 위치: `~/.lmstudio/models/`)
+3. **LM Studio 서버 시작**:
+   - gpt-oss-20b 모델 로드
+   - "Developer" 또는 "Local Server" 탭으로 이동
+   - "Start Server" 클릭 (기본 포트: 1234)
 
-### Build Vector Database
+### 벡터 데이터베이스 구축
 
-Add your research papers (markdown files) to the `data/` folder, then:
+`data/` 폴더에 연구 논문 마크다운 파일을 추가한 후:
 
 ```bash
 python build_index.py
 ```
 
-This will process documents and create a ChromaDB vector database in `chroma_db/`.
+`chroma_db/`에 ChromaDB 벡터 데이터베이스가 생성됩니다.
 
-### Run the System
+### 시스템 실행
 
-#### Option 1: OpenWebUI (Recommended)
+#### 옵션 1: OpenWebUI (권장)
 
 ```bash
-# Start OpenWebUI
+# OpenWebUI 시작
 start_openwebui.bat
-# or
+# 또는
 .venv\Scripts\open-webui.exe serve
 ```
 
-Then open http://localhost:8080 in your browser.
+브라우저에서 http://localhost:8080 접속
 
-See [OPENWEBUI_SETUP.md](OPENWEBUI_SETUP.md) for detailed configuration.
+자세한 설정은 [OPENWEBUI_SETUP.md](OPENWEBUI_SETUP.md)를 참조하세요.
 
-#### Option 2: CLI Mode
+#### 옵션 2: CLI 모드
 
 ```bash
 python main.py
 ```
 
-Interactive Q&A in terminal.
+터미널에서 대화형 Q&A를 사용합니다.
 
-#### Option 3: API Server
+#### 옵션 3: API 서버
 
 ```bash
 python api_server.py
 ```
 
-API will be available at http://localhost:8000
+API는 http://localhost:8000 에서 사용 가능
 
 Swagger UI: http://localhost:8000/docs
 
-## 📁 Project Structure
+## 📁 프로젝트 구조
 
 ```
 gpt-oss-20b-pha-model/
 ├── src/
 │   ├── __init__.py
-│   ├── config.py              # Configuration
-│   ├── embedding_model.py     # Embedding model (CPU)
-│   ├── local_llm.py          # LM Studio API client
-│   ├── data_processor.py     # Data processing
-│   ├── vector_store.py       # ChromaDB vector store
-│   └── rag_chain.py          # RAG pipeline
-├── data/                      # Research papers (.md files)
-├── chroma_db/                 # Vector database (auto-generated)
-├── main.py                    # CLI interface
-├── build_index.py            # Vector DB builder
-├── api_server.py             # FastAPI server
-├── test_search.py            # Test vector search
-├── test_full_rag.py          # Test full RAG pipeline
-├── openwebui_rag_function.py # OpenWebUI RAG function
-├── start_openwebui.bat       # OpenWebUI launcher
-├── requirements.txt          # Dependencies
-├── CLAUDE.md                 # Development guide
-├── OPENWEBUI_SETUP.md        # OpenWebUI setup guide
-└── README.md                 # This file
+│   ├── config.py              # 설정
+│   ├── embedding_model.py     # 임베딩 모델 (CPU)
+│   ├── local_llm.py          # LM Studio API 클라이언트
+│   ├── data_processor.py     # 데이터 처리
+│   ├── vector_store.py       # ChromaDB 벡터 스토어
+│   └── rag_chain.py          # RAG 파이프라인
+├── data/                      # 연구 논문 (.md 파일)
+├── chroma_db/                 # 벡터 데이터베이스 (자동 생성)
+├── main.py                    # CLI 인터페이스
+├── build_index.py            # 벡터 DB 빌더
+├── api_server.py             # FastAPI 서버
+├── test_search.py            # 벡터 검색 테스트
+├── test_full_rag.py          # 전체 RAG 파이프라인 테스트
+├── openwebui_rag_function.py # OpenWebUI RAG 함수
+├── start_openwebui.bat       # OpenWebUI 실행 스크립트
+├── requirements.txt          # 의존성
+├── CLAUDE.md                 # 개발 가이드
+├── OPENWEBUI_SETUP.md        # OpenWebUI 설정 가이드
+└── README.md                 # 이 파일
 ```
 
-## 🔧 Configuration
+## 🔧 설정
 
-### .env Configuration
+### .env 설정
 
-Edit `.env` to customize:
+`.env` 파일을 편집하여 커스터마이징:
 
 ```bash
-# LM Studio Server URL
+# LM Studio 서버 URL
 LM_STUDIO_URL=http://localhost:1234/v1
 
-# Embedding Model
+# 임베딩 모델
 EMBEDDING_MODEL=intfloat/multilingual-e5-large
 
-# API Settings
+# API 설정
 API_HOST=0.0.0.0
 API_PORT=8000
 ```
 
-### Advanced Settings
+### 고급 설정
 
-Edit `src/config.py` to customize:
+`src/config.py`를 편집하여 커스터마이징:
 
-- Batch sizes (default: 64 for embedding)
-- Vector database parameters
-- Context length (default: 8192)
-- Chunk size and overlap
+- 배치 크기 (기본값: 임베딩 64)
+- 벡터 데이터베이스 파라미터
+- 컨텍스트 길이 (기본값: 8192)
+- 청크 크기 및 오버랩
 
-**Note**: Currently running in CPU mode due to Blackwell GPU (sm_120) not being supported by PyTorch 2.5.1. To enable GPU when supported, edit `src/config.py`:
+**참고**: Blackwell GPU (sm_120)가 PyTorch 2.5.1에서 아직 지원되지 않아 현재 CPU 모드로 실행 중입니다. GPU 지원 시 `src/config.py`를 수정하세요:
 
 ```python
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 ```
 
-## 📚 Usage Examples
+## 📚 사용 예시
 
-### CLI Mode
+### CLI 모드
 
 ```
 질문: Personal Health Agent의 주요 기능은 무엇인가요?
@@ -183,121 +183,121 @@ Personal Health Agent는 다음과 같은 주요 기능을 제공합니다:
 ...
 ```
 
-### API Mode
+### API 모드
 
 ```bash
 curl -X POST "http://localhost:8000/ask" \
   -H "Content-Type: application/json" \
   -d '{
-    "query": "What are the key features of Personal Health Agent?",
+    "query": "Personal Health Agent의 주요 기능은 무엇인가요?",
     "k": 5,
     "temperature": 0.7,
     "max_length": 2048
   }'
 ```
 
-### OpenWebUI Mode
+### OpenWebUI 모드
 
-1. Access http://localhost:8080
-2. Add RAG Function from `openwebui_rag_function.py`
-3. Ask questions in chat interface
-4. System automatically searches papers and generates answers
+1. http://localhost:8080 접속
+2. `openwebui_rag_function.py`에서 RAG Function 추가
+3. 채팅 인터페이스에서 질문
+4. 시스템이 자동으로 논문을 검색하고 답변 생성
 
-## 🧪 Testing
+## 🧪 테스트
 
-### Test Vector Search Only
+### 벡터 검색 테스트
 
 ```bash
 python test_search.py
 ```
 
-### Test Full RAG Pipeline
+### 전체 RAG 파이프라인 테스트
 
 ```bash
 python test_full_rag.py
 ```
 
-## 🛠️ Troubleshooting
+## 🛠️ 문제 해결
 
-### LM Studio Not Connecting
+### LM Studio 연결 안됨
 
 ```bash
-# Check if LM Studio server is running
+# LM Studio 서버 실행 확인
 curl http://localhost:1234/v1/models
 
-# Expected response: list of loaded models
+# 예상 응답: 로드된 모델 목록
 ```
 
-**Solutions**:
-- Ensure LM Studio is running
-- Check that a model is loaded
-- Verify server is started on port 1234
+**해결 방법**:
+- LM Studio가 실행 중인지 확인
+- 모델이 로드되어 있는지 확인
+- 서버가 1234 포트에서 시작되었는지 확인
 
-### Vector Database Not Found
+### 벡터 데이터베이스를 찾을 수 없음
 
 ```bash
-# Rebuild the database
+# 데이터베이스 재구축
 python build_index.py
 ```
 
-### Slow Performance
+### 성능이 느림
 
-**CPU Mode Optimization**:
-- Reduce `EMBEDDING_BATCH_SIZE` in `src/config.py` (e.g., 32 instead of 64)
-- Reduce `TOP_K_RESULTS` (e.g., 3 instead of 10)
-- Use shorter `max_length` for generation
+**CPU 모드 최적화**:
+- `src/config.py`에서 `EMBEDDING_BATCH_SIZE` 감소 (예: 64 → 32)
+- `TOP_K_RESULTS` 감소 (예: 10 → 3)
+- 생성 시 `max_length` 짧게 설정
 
-### Memory Issues
+### 메모리 문제
 
-Reduce batch sizes in `src/config.py`:
+`src/config.py`에서 배치 크기 감소:
 
 ```python
-EMBEDDING_BATCH_SIZE = 32  # Reduce from 64
-GENERATION_BATCH_SIZE = 4  # Reduce from 8
+EMBEDDING_BATCH_SIZE = 32  # 64에서 감소
+GENERATION_BATCH_SIZE = 4  # 8에서 감소
 ```
 
-## 📊 Performance Benchmarks
+## 📊 성능 벤치마크
 
-| Task | Time | Memory Usage |
+| 작업 | 시간 | 메모리 사용량 |
 |------|------|--------------|
-| Embedding Model Load | 5-10s | ~2GB RAM |
-| Vector DB Build (1129 chunks) | 4-5min | ~5GB RAM |
-| Query Search | <1s | ~0.5GB RAM |
-| Answer Generation (LM Studio) | 5-30s | ~12GB RAM |
+| 임베딩 모델 로드 | 5-10초 | ~2GB RAM |
+| 벡터 DB 구축 (1129 청크) | 4-5분 | ~5GB RAM |
+| 쿼리 검색 | <1초 | ~0.5GB RAM |
+| 답변 생성 (LM Studio) | 5-30초 | ~12GB RAM |
 
-**Note**: Performance varies based on:
-- LM Studio model quantization (MXFP4, Q4, etc.)
-- Hardware specs (CPU/RAM)
-- Number of documents in vector DB
+**참고**: 성능은 다음에 따라 달라집니다:
+- LM Studio 모델 양자화 (MXFP4, Q4 등)
+- 하드웨어 사양 (CPU/RAM)
+- 벡터 DB의 문서 수
 
-## 🆕 What's New
+## 🆕 새로운 기능
 
-### v2.0 (Latest)
-- ✅ LM Studio integration (replaces direct model loading)
-- ✅ OpenWebUI support with RAG function
-- ✅ CPU mode for broader compatibility
-- ✅ Improved Windows encoding support
-- ✅ Test scripts for debugging
-- ✅ Comprehensive documentation (CLAUDE.md, OPENWEBUI_SETUP.md)
+### v2.0 (최신)
+- ✅ LM Studio 통합 (직접 모델 로딩 대체)
+- ✅ RAG 함수를 통한 OpenWebUI 지원
+- ✅ 광범위한 호환성을 위한 CPU 모드
+- ✅ Windows 인코딩 지원 개선
+- ✅ 디버깅용 테스트 스크립트
+- ✅ 포괄적인 문서 (CLAUDE.md, OPENWEBUI_SETUP.md)
 
 ### v1.0
-- Initial release with HuggingFace Transformers
-- Basic RAG pipeline
-- CLI and API interfaces
+- HuggingFace Transformers를 사용한 초기 릴리스
+- 기본 RAG 파이프라인
+- CLI 및 API 인터페이스
 
-## 📄 License
+## 📄 라이선스
 
-This project is for research and educational purposes.
+이 프로젝트는 연구 및 교육 목적으로 사용됩니다.
 
-## 🤝 Contributing
+## 🤝 기여
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+기여를 환영합니다! Pull Request를 자유롭게 제출해 주세요.
 
-## 📮 Contact
+## 📮 문의
 
-For questions or issues, please open a GitHub issue.
+질문이나 이슈가 있으면 GitHub Issue를 열어주세요.
 
-## 🔗 Resources
+## 🔗 참고 자료
 
 - [LM Studio](https://lmstudio.ai/)
 - [OpenWebUI](https://github.com/open-webui/open-webui)
