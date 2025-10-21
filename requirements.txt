@@ -1,0 +1,29 @@
+# Core Libraries
+langchain==0.1.0
+langchain-community==0.0.20
+
+# Vector Database
+chromadb==0.4.22
+
+# Embeddings & Transformers
+sentence-transformers==2.3.1
+transformers==4.37.2
+accelerate==0.26.1
+bitsandbytes==0.42.0
+
+# API & Server
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-dotenv==1.0.0
+
+# Data Processing
+pandas==2.2.0
+numpy==1.26.3
+
+# Korean Language Support
+konlpy==0.6.0
+kiwipiepy==0.16.2
+
+# Utilities
+python-multipart==0.0.6
+pydantic==2.5.3
