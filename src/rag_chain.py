@@ -13,7 +13,7 @@ class RAGChain:
         if self.vector_store.collection is None:
             self.vector_store.create_collection(reset=False)
         
-        print("✓ RAG Chain initialized")
+        print("[OK] RAG Chain initialized")
     
     def create_prompt(self, query: str, contexts: List[str]) -> str:
         """프롬프트 생성"""
@@ -63,12 +63,12 @@ class RAGChain:
         metadatas = search_results['metadatas'][0]
         distances = search_results['distances'][0]
         
-        print(f"✓ Found {len(contexts)} relevant chunks")
+        print(f"[OK] Found {len(contexts)} relevant chunks")
         
         # 2. 프롬프트 생성
         print("\n[2/3] Creating prompt...")
         prompt = self.create_prompt(query, contexts)
-        print(f"✓ Prompt created ({len(prompt)} characters)")
+        print(f"[OK] Prompt created ({len(prompt)} characters)")
         
         # 3. LLM으로 답변 생성
         print("\n[3/3] Generating answer...")
@@ -78,7 +78,7 @@ class RAGChain:
             temperature=temperature
         )
         
-        print(f"✓ Answer generated ({len(answer)} characters)")
+        print(f"[OK] Answer generated ({len(answer)} characters)")
         
         # 결과 반환
         return {

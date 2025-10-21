@@ -37,7 +37,7 @@ class VectorStore:
         if reset:
             try:
                 self.client.delete_collection(self.collection_name)
-                print(f"✓ Deleted existing collection: {self.collection_name}")
+                print(f"[OK] Deleted existing collection: {self.collection_name}")
             except:
                 pass
         
@@ -50,7 +50,7 @@ class VectorStore:
             }
         )
         
-        print(f"✓ Collection ready: {self.collection_name}")
+        print(f"[OK] Collection ready: {self.collection_name}")
         print(f"  Total documents: {self.collection.count()}")
     
     def add_documents(self, chunks: List[Any]):
@@ -86,7 +86,7 @@ class VectorStore:
             
             print(f"  Progress: {end_idx}/{len(texts)} ({end_idx/len(texts)*100:.1f}%)")
         
-        print(f"✓ Added {len(texts)} documents to vector store")
+        print(f"[OK] Added {len(texts)} documents to vector store")
     
     def search(
         self,

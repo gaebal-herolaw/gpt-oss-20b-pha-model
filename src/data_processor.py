@@ -56,7 +56,7 @@ class DataProcessor:
             
             documents.append(doc)
         
-        print(f"✓ Loaded {len(documents)} documents")
+        print(f"[OK] Loaded {len(documents)} documents")
         return documents
     
     def split_documents(self, documents: List[Document]) -> List[Document]:
@@ -69,7 +69,7 @@ class DataProcessor:
         for i, chunk in enumerate(chunks):
             chunk.metadata["chunk_id"] = i
         
-        print(f"✓ Created {len(chunks)} chunks from {len(documents)} documents")
+        print(f"[OK] Created {len(chunks)} chunks from {len(documents)} documents")
         
         # 통계 출력
         avg_chunk_size = sum(len(chunk.page_content) for chunk in chunks) / len(chunks)

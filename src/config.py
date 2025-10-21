@@ -9,7 +9,9 @@ class Config:
     MODELS_DIR = PROJECT_ROOT / "models"
     
     # GPU 설정
-    DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+    # Note: Blackwell GPU (sm_120) not yet supported by PyTorch 2.5.1
+    # Using CPU until PyTorch adds Blackwell support
+    DEVICE = "cpu"  # "cuda" if torch.cuda.is_available() else "cpu"
     
     # RTX Pro 6000 96GB 최적화 설정
     EMBEDDING_BATCH_SIZE = 64      # 대용량 배치
@@ -52,7 +54,7 @@ class Config:
         Config.CHROMA_DB_DIR.mkdir(exist_ok=True)
         Config.MODELS_DIR.mkdir(exist_ok=True)
         Config.DATA_DIR.mkdir(exist_ok=True)
-        print("✓ Directories created")
+        print("[OK] Directories created")
 
 # 초기화
 Config.create_directories()

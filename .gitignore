@@ -58,3 +58,8 @@ logs/
 build/
 dist/
 *.egg-info/
+.webui_secret_key
+chroma_db/
+models/
+__pycache__/
+*.pyc
